@@ -1,0 +1,6 @@
+xen-api
+xen-api-libs
+ext-rpms
+*.swp
+*.rpm
+*.stamp
