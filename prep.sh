@@ -2,7 +2,7 @@
 
 set -e
 
-GITREPOS=(git://github.com/xen-org/xen-api.git git://github.com/xen-org/xen-api-libs.git)
+GITREPOS=(git://github.com/xen-org/xen-api.git)
 
 RPMS="vim-enhanced git tmux pkgconfig libX11 bash-completion zlib-devel pam-devel"
 EPEL=http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
@@ -58,7 +58,7 @@ for r in ${RPMS}; do
 done
 
 # Install dev tools (if make is installed, we've already installed this group)
-which make || sudo yum -y --enablerepo=base groupinstall "Development Tools"
+which make > /dev/null || sudo yum -y --enablerepo=base groupinstall "Development Tools"
 
 # Download RPM deps
 mkdir -p ext-rpms
@@ -76,6 +76,9 @@ done
 # Clone git repos
 for repo in ${GITREPOS[*]}; do
 	git clone ${repo} 2> /dev/null || true
+	cd $(basename ${repo} .git)
+	git checkout xcp-tampa 2> /dev/null
+	cd ..
 done
 
 # Add CentOS string to /etc/issue
