@@ -4,7 +4,7 @@ set -e
 
 GITREPOS=(git://github.com/xen-org/xen-api.git git://github.com/xen-org/xen-api-libs.git)
 
-RPMS="vim-enhanced git tmux pkgconfig libX11 bash-completion"
+RPMS="vim-enhanced git tmux pkgconfig libX11 bash-completion zlib-devel pam-devel"
 EPEL=http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
 
 DEPURL=http://downloads.xen.org/XCP/61809c/build-deps
@@ -39,10 +39,12 @@ ocaml-type-conv-debuginfo-3.0.1-unknown.i686.rpm
 ocaml-xmlm-1.0.2-unknown.i686.rpm
 ocaml-xmlm-debuginfo-1.0.2-unknown.i686.rpm
 ocaml-xmlm-devel-1.0.2-unknown.i686.rpm
+omake-0.9.8.6-unknown.i686.rpm
 xapi-client-devel-0.2-5227.i686.rpm
 xapi-datamodel-devel-0.2-5227.i686.rpm
 xapi-libs-devel-0.1-858.i686.rpm
 xapi-rrd-devel-0.2-5227.i686.rpm
+xen-devel-4.1.3-1.6.10.513.23557.i686.rpm
 xen-device-model-1.6.10-54.7533.i686.rpm
 xen-device-model-debuginfo-1.6.10-54.7533.i686.rpm
 )
@@ -55,8 +57,8 @@ for r in ${RPMS}; do
 	rpm -q ${r} > /dev/null || sudo yum -y --enablerepo=base install ${r}
 done
 
-# Install dev tools
-sudo yum -y --enablerepo=base groupinstall "Development Tools"
+# Install dev tools (if make is installed, we've already installed this group)
+which make || sudo yum -y --enablerepo=base groupinstall "Development Tools"
 
 # Download RPM deps
 mkdir -p ext-rpms
@@ -69,12 +71,15 @@ TOINSTALL=""
 for dep in $(ls ext-rpms/*.rpm); do
 	rpm -q $(basename ${dep} .rpm) > /dev/null || TOINSTALL="${TOINSTALL} ${dep}"
 done
-[ -n ${TOINSTALL} ] || sudo rpm -Uvh ${TOINSTALL}
+[ -z ${TOINSTALL} ] || sudo rpm -Uvh ${TOINSTALL}
 
 # Clone git repos
 for repo in ${GITREPOS[*]}; do
 	git clone ${repo} 2> /dev/null || true
 done
+
+# Add CentOS string to /etc/issue
+grep -i centos /etc/issue > /dev/null || sudo su -c 'echo CentOS >> /etc/issue'
 
 # Done, write stamp
 touch .prep.stamp
