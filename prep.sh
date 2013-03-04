@@ -71,7 +71,7 @@ TOINSTALL=""
 for dep in $(ls ext-rpms/*.rpm); do
 	rpm -q $(basename ${dep} .rpm) > /dev/null || TOINSTALL="${TOINSTALL} ${dep}"
 done
-[ -z ${TOINSTALL} ] || sudo rpm -Uvh ${TOINSTALL}
+[ -z "${TOINSTALL}" ] || sudo rpm -Uvh ${TOINSTALL}
 
 # Clone git repos
 for repo in ${GITREPOS[*]}; do
