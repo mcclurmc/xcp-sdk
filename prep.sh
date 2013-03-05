@@ -52,15 +52,15 @@ xen-device-model-debuginfo-1.6.10-54.7533.i686.rpm
 # Add EPEL
 rpm -q epel-release > /dev/null || sudo rpm -Uvh ${EPEL}
 
+# Install dev tools (if make is installed, we've already installed this group)
+which make > /dev/null || sudo yum -y --enablerepo=base groupinstall "Development Tools"
+
 # Install EPEL/base repo dependencies
 TOINSTALL=""
 for p in ${PACKAGES}; do
 	rpm -q ${p} > /dev/null || TOINSTALL="${TOINSTALL} ${p}"
 done
 [ -z "${TOINSTALL}" ] || sudo yum -y --enablerepo=base install ${TOINSTALL}
-
-# Install dev tools (if make is installed, we've already installed this group)
-which make > /dev/null || sudo yum -y --enablerepo=base groupinstall "Development Tools"
 
 # Download RPM deps
 mkdir -p ext-rpms
