@@ -8,12 +8,15 @@ PACKAGES="vim-enhanced git tmux pkgconfig libX11 bash-completion zlib-devel pam-
 EPEL=http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
 
 DEPURL=http://downloads.xen.org/XCP/61809c/build-deps
-DEPRPMS=(kernel-devel-3.3.0-1.xs1.6.10.34.24.i686.rpm
+DEPRPMS=(blktap-2.0.90.xs726-xs6.1.0.i686.rpm
+kernel-devel-3.3.0-1.xs1.6.10.34.24.i686.rpm
 kernel-extra-devel-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
+kernel-kdump-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 kernel-kdump-devel-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 kernel-utility-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 kernel-utility-devel-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 kernel-xen-devel-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
+libev-4.04-1.i686.rpm
 ocaml-3.12.1.ocamlspotter-unknown.i686.rpm
 ocaml-bitstring-2.0.3-1.i686.rpm
 ocaml-bitstring-devel-2.0.3-1.i686.rpm
@@ -47,6 +50,8 @@ xapi-rrd-devel-0.2-5227.i686.rpm
 xen-devel-4.1.3-1.6.10.513.23557.i686.rpm
 xen-device-model-1.6.10-54.7533.i686.rpm
 xen-device-model-debuginfo-1.6.10-54.7533.i686.rpm
+xen-hypervisor-4.1.3-1.6.10.513.23557.i686.rpm
+xen-tools-4.1.3-1.6.10.513.23557.i686.rpm
 )
 
 # Add EPEL
