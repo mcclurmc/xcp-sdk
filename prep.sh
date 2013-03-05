@@ -4,7 +4,7 @@ set -e
 
 GITREPOS=(git://github.com/xen-org/xen-api.git)
 
-RPMS="vim-enhanced git tmux pkgconfig libX11 bash-completion zlib-devel pam-devel"
+PACKAGES="vim-enhanced git tmux pkgconfig libX11 bash-completion zlib-devel pam-devel SDL e4fsprogs-libs tetex-latex"
 EPEL=http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
 
 DEPURL=http://downloads.xen.org/XCP/61809c/build-deps
@@ -53,9 +53,11 @@ xen-device-model-debuginfo-1.6.10-54.7533.i686.rpm
 rpm -q epel-release > /dev/null || sudo rpm -Uvh ${EPEL}
 
 # Install EPEL/base repo dependencies
-for r in ${RPMS}; do
-	rpm -q ${r} > /dev/null || sudo yum -y --enablerepo=base install ${r}
+TOINSTALL=""
+for p in ${PACKAGES}; do
+	rpm -q ${p} > /dev/null || TOINSTALL="${TOINSTALL} ${p}"
 done
+[ -z "${TOINSTALL}" ] || sudo yum -y --enablerepo=base install ${TOINSTALL}
 
 # Install dev tools (if make is installed, we've already installed this group)
 which make > /dev/null || sudo yum -y --enablerepo=base groupinstall "Development Tools"
