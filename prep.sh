@@ -67,16 +67,18 @@ for p in ${PACKAGES}; do
 done
 [ -z "${TOINSTALL}" ] || sudo yum -y --enablerepo=base install ${TOINSTALL}
 
-# Download RPM deps
-mkdir -p ext-rpms
-for r in ${DEPRPMS[*]}; do
-	[ -f ext-rpms/${r} ] || wget -P ext-rpms ${DEPURL}/${r}
-done
-
-# Install RPM deps
+# Download and install RPM deps
 TOINSTALL=""
-for dep in $(ls ext-rpms/*.rpm); do
-	rpm -q $(basename ${dep} .rpm) > /dev/null || TOINSTALL="${TOINSTALL} ${dep}"
+mkdir -p ext-rpms
+for dep in ${DEPRPMS[*]}; do
+	# Download dep iff we haven't installed id, and we haven't already downloaded it
+	if ([ ! $(rpm -q $(basename ${dep} .rpm) > /dev/null) ] && [ ! -f ext-rpms/${dep} ]); then
+		wget -P ext-rpms ${DEPURL}/${dep}
+		TOINSTALL="${TOINSTALL} ext-rpms/${dep}"
+	else
+		# But we may still need to install it, even if we didn't redownload it
+		rpm -q $(basename ${dep} .rpm) > /dev/null || TOINSTALL="${TOINSTALL} ${dep}"
+	fi
 done
 [ -z "${TOINSTALL}" ] || sudo rpm -Uvh ${TOINSTALL}
 
