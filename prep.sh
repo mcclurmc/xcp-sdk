@@ -15,6 +15,7 @@ kernel-kdump-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 kernel-kdump-devel-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 kernel-utility-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 kernel-utility-devel-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
+kernel-xen-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 kernel-xen-devel-2.6.32.43-0.4.1.xs1.6.10.734.170748.i686.rpm
 libev-4.04-1.i686.rpm
 ocaml-3.12.1.ocamlspotter-unknown.i686.rpm
