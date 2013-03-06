@@ -5,7 +5,7 @@ set -e
 GITREPOS=(git://github.com/xen-org/xen-api.git)
 
 PACKAGES="vim-enhanced git tmux pkgconfig libX11 bash-completion zlib-devel pam-devel SDL e4fsprogs-libs tetex-latex"
-EPEL=http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+EPEL=http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
 
 DEPURL=http://downloads.xen.org/XCP/61809c/build-deps
 DEPRPMS=(blktap-2.0.90.xs726-xs6.1.0.i686.rpm
