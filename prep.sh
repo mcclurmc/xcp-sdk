@@ -59,7 +59,18 @@ xen-tools-4.1.3-1.6.10.513.23557.i686.rpm
 rpm -q epel-release > /dev/null || sudo rpm -Uvh ${EPEL}
 
 # Install dev tools (if make is installed, we've already installed this group)
-which make > /dev/null || sudo yum -y --enablerepo=base groupinstall "Development Tools"
+for tool in rpmbuild make gcc
+do
+    toolpath=`which $tool`
+    if [ -z "$toolpath" ] || [ ! -x "$toolpath" ]
+    then
+        sudo yum -y --enablerepo=base groupinstall "Development Tools"
+        break
+    fi
+done
+test ( -f `which make` -and  > /dev/null || sudo yum -y --enablerepo=base groupinstall "Development Tools"
+rpm -q rpm-build >/dev/null ||sudo yum -y --enablerepo=base install rpm-build
+rpm -q gcc >/dev/null ||sudo yum -y --enablerepo=base install gcc
 
 # Install EPEL/base repo dependencies
 TOINSTALL=""
@@ -93,6 +104,11 @@ done
 
 # Add CentOS string to /etc/issue
 grep -i centos /etc/issue > /dev/null || sudo su -c 'echo CentOS >> /etc/issue'
+
+#download jquery stuff
+mkdir -p javascript/jquery/treeview
+test -f javascript/jquery/jquery-1.1.3.1.pack.js || wget http://downloads.xen.org/XCP/61809c/build-deps/distfiles/javascript/jquery/jquery-1.1.3.1.pack.js -O javascript/jquery/jquery-1.1.3.1.pack.js
+test -f javascript/jquery/treeview/jquery.treeview.zip || wget http://downloads.xen.org/XCP/61809c/build-deps/distfiles/javascript/jquery/treeview/jquery.treeview.zip -O javascript/jquery/treeview/jquery.treeview.zip
 
 # Done, write stamp
 touch .prep.stamp
