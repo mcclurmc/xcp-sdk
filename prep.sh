@@ -68,9 +68,8 @@ do
         break
     fi
 done
-test ( -f `which make` -and  > /dev/null || sudo yum -y --enablerepo=base groupinstall "Development Tools"
+which make >/dev/null &&  which gcc >/dev/null  || sudo yum -y --enablerepo=base groupinstall "Development Tools"
 rpm -q rpm-build >/dev/null ||sudo yum -y --enablerepo=base install rpm-build
-rpm -q gcc >/dev/null ||sudo yum -y --enablerepo=base install gcc
 
 # Install EPEL/base repo dependencies
 TOINSTALL=""
